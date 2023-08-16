@@ -22,7 +22,6 @@ jobs:
     permissions:
       packages: write
     env:
-      docker_username: ${{ github.actor }}
       docker_password: ${{ SECRETS.GITHUB_TOKEN }}
       GIT_COMMIT: ${{ github.sha }}
     steps:
@@ -31,8 +30,15 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: java-app
+      - name: set lower case owner name
+        run: |
+          echo "ACTOR_LC=${docker_username,,}" >>${GITHUB_ENV}
       - name: Build Docker Image
         run: ./ci/build-docker.sh
+        env:
+          docker_username: ${{ env.ACTOR_LC }}
       - name: Publish Docker Image
         run: ./ci/push-docker.sh
+        env:
+          docker_username: ${{ env.ACTOR_LC }}
       
