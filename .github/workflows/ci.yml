@@ -30,6 +30,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: java-app
+          path: ./app/build/libs/app-0.1-all.jar
       - name: set lower case owner name
         run: |
           echo "ACTOR_LC=${docker_username,,}" >>${GITHUB_ENV}
