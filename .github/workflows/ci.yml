@@ -1,8 +1,11 @@
-name: hello-world
+name: CI
 on: push
+
 jobs: 
-  my-job:
+  Build:
     runs-on: ubuntu-latest
+    container: gradle:6-jdk11
     steps:
-      - name: my-step
-        run: echo "Hello World!"
+      - uses: actions/checkout@v3
+      - name: Gradle build
+        run: ./ci/build-app.sh
